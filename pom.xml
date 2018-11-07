@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ysoserial</groupId>
-	<artifactId>ysoserial</artifactId>
+	<artifactId>ysoserial-my</artifactId>
 	<version>0.0.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
 

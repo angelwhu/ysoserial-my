@@ -1,5 +1,6 @@
 package ysoserial.payloads.util;
 
+import java.util.Base64;
 import java.util.concurrent.Callable;
 
 import ysoserial.Deserializer;
@@ -35,6 +36,7 @@ public class PayloadRunner {
 
 		try {
 			System.out.println("deserializing payload");
+			System.out.println(Base64.getEncoder().encodeToString(serialized)); //Test base64 output~ @angelwhu
 			final Object objAfter = Deserializer.deserialize(serialized);
 		} catch (Exception e) {
 			e.printStackTrace();

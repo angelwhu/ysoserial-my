@@ -204,7 +204,7 @@ public class CommonsCollections6 extends PayloadRunner implements ObjectPayload<
 
     public static void main(final String[] args) throws Exception {
         //PayloadRunner.run(CommonsCollections6.class, args);
-        //PayloadRunner.run(CommonsCollections6.class, new String[]{"/Applications/Calculator.app/Contents/MacOS/Calculator"});
-        PayloadRunner.run(CommonsCollections6.class, new String[]{"id"});
+        PayloadRunner.run(CommonsCollections6.class, new String[]{"/Applications/Calculator.app/Contents/MacOS/Calculator"});
+        //PayloadRunner.run(CommonsCollections6.class, new String[]{"id"});
     }
 }

@@ -19,6 +19,8 @@ public @interface Authors {
     String JACOBAINES = "jacob-baines";
     String JASINNER = "jasinner";
 
+    String ANGELWHU = "angelwhu";
+
     String[] value() default {};
 
     public static class Utils {

